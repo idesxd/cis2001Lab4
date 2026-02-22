@@ -1,6 +1,8 @@
 import time
-from gettext import install
 import matplotlib.pyplot as plt
+
+
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -10,19 +12,43 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
+        self.tail = None
 
     def append(self, data):
-        if not self.head:
-            self.head = Node(data)
+        new_node = Node(data)
+
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
             return
-        current = self.head
-        while current.next:
-            current = current.next
-        current.next = Node(data)
+
+        self.tail.next = new_node
+        self.tail = new_node
 
     def remove_head(self):
-        if self.head:
+        if self.head is not None:
             self.head = self.head.next
+            if self.head is None:
+                self.tail = None
+
+    def insert_at_beginning(self, data):
+        new_node = Node(data)
+        new_node.next = self.head
+        self.head = new_node
+
+        if self.tail is None:
+            self.tail = new_node
+
+
+
+
+def average_time(func, n, trials=50):
+    total = 0
+    for _ in range(trials):
+        total += func(n)
+    return total / trials
+
+
 
 
 def time_remove_head_array(n):
@@ -44,23 +70,6 @@ def time_remove_head_linked(n):
     return end - start
 
 
-sizes = range(1000, 20000, 1000)
-array_times = []
-linked_times = []
-
-for size in sizes:
-    array_times.append(time_remove_head_array(size))
-    linked_times.append(time_remove_head_linked(size))
-
-
-plt.plot(sizes, array_times, label="Array List (pop(0))")
-plt.plot(sizes, linked_times, label="Linked List (remove head)")
-plt.xlabel("List Size (N)")
-plt.ylabel("Time (seconds)")
-plt.title("Remove First Element Performance")
-plt.legend()
-plt.show()
-
 def time_insert_beginning_array(n):
     arr = list(range(n))
     start = time.perf_counter()
@@ -75,8 +84,6 @@ def time_insert_beginning_linked(n):
         ll.append(i)
 
     start = time.perf_counter()
-    new_node = Node(-1)
-    new_node.next = ll.head
-    ll.head = new_node
+    ll.insert_at_beginning(-1)
     end = time.perf_counter()
     return end - start
