@@ -38,15 +38,11 @@ class LinkedList:
             self.tail = new_node
 
 
-
-
 def average_time(func, n, trials=50):
     total = 0
     for _ in range(trials):
         total += func(n)
     return total / trials
-
-
 
 
 def time_remove_head_array(n):
@@ -104,9 +100,6 @@ for size in sizes:
 
 print("Done. Generating graphs...")
 
-
-
-
 plt.figure()
 plt.plot(sizes, array_remove_times, label="Array List pop(0)")
 plt.plot(sizes, linked_remove_times, label="Linked List remove head")
@@ -115,8 +108,6 @@ plt.ylabel("Time (seconds)")
 plt.title("Remove First Element Performance")
 plt.legend()
 plt.show()
-
-
 
 
 plt.figure()
