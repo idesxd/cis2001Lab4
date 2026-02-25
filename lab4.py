@@ -1,8 +1,6 @@
 import time
 import matplotlib.pyplot as plt
 
-
-
 class Node:
     def __init__(self, data):
         self.data = data
@@ -87,3 +85,45 @@ def time_insert_beginning_linked(n):
     ll.insert_at_beginning(-1)
     end = time.perf_counter()
     return end - start
+sizes = range(1000, 20000, 1000)
+
+array_remove_times = []
+linked_remove_times = []
+
+array_insert_times = []
+linked_insert_times = []
+
+print("Collecting timing data...")
+
+for size in sizes:
+    array_remove_times.append(average_time(time_remove_head_array, size))
+    linked_remove_times.append(average_time(time_remove_head_linked, size))
+
+    array_insert_times.append(average_time(time_insert_beginning_array, size))
+    linked_insert_times.append(average_time(time_insert_beginning_linked, size))
+
+print("Done. Generating graphs...")
+
+
+
+
+plt.figure()
+plt.plot(sizes, array_remove_times, label="Array List pop(0)")
+plt.plot(sizes, linked_remove_times, label="Linked List remove head")
+plt.xlabel("List Size (N)")
+plt.ylabel("Time (seconds)")
+plt.title("Remove First Element Performance")
+plt.legend()
+plt.show()
+
+
+
+
+plt.figure()
+plt.plot(sizes, array_insert_times, label="Array List insert(0)")
+plt.plot(sizes, linked_insert_times, label="Linked List insert at beginning")
+plt.xlabel("List Size (N)")
+plt.ylabel("Time (seconds)")
+plt.title("Insert at Beginning Performance")
+plt.legend()
+plt.show()
